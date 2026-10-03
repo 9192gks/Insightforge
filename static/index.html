@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>InsightForge — Data Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7"></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">✦</div><div><b>InsightForge</b><span>Data Intelligence</span></div></div>
+    <nav>
+      <button class="nav active" data-view="overview"><span>⌂</span> Overview</button>
+      <button class="nav" data-view="datasets"><span>▣</span> Datasets</button>
+      <button class="nav" data-view="quality"><span>◈</span> Data Quality</button>
+      <button class="nav" data-view="anomalies"><span>⚠</span> Anomalies</button>
+      <button class="nav" data-view="correlations"><span>⌁</span> Correlations</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="server-card"><span class="dot"></span><div><b>API Online</b><small>localhost:8000</small></div></div>
+      <div class="version">InsightForge v1.0 · No AI</div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><div class="eyebrow">DATA OPERATIONS</div><h1 id="page-title">Overview</h1></div>
+      <div class="top-actions"><div class="api-pill"><span class="dot"></span> Connected</div><button class="icon-btn" onclick="loadAll()">↻</button></div>
+    </header>
+
+    <section id="view-overview" class="view active">
+      <div class="hero">
+        <div><span class="hero-kicker">YOUR DATA, UNDER A MICROSCOPE</span><h2>Turn raw files into<br><em>clear signals.</em></h2><p>Profile, inspect, compare and detect unusual records — from one clean workspace.</p></div>
+        <div class="hero-art"><div class="orb"></div><div class="spark s1">+</div><div class="spark s2">×</div><div class="spark s3">•</div></div>
+      </div>
+      <div class="cards">
+        <div class="metric"><span>DATASETS</span><strong id="m-datasets">—</strong><small>stored locally</small></div>
+        <div class="metric"><span>ROWS</span><strong id="m-rows">—</strong><small>across selected data</small></div>
+        <div class="metric"><span>ANOMALIES</span><strong id="m-anomalies">—</strong><small>latest scan</small></div>
+        <div class="metric"><span>API STATUS</span><strong class="status-text">ONLINE</strong><small>all systems operational</small></div>
+      </div>
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Dataset activity</h3><p>Rows by dataset</p></div><span class="badge">LIVE</span></div>
+          <div class="chart-wrap"><canvas id="datasetChart"></canvas></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h3>Quick start</h3><p>Run your first analysis</p></div></div>
+          <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon">↑</div><b>Drop a CSV or Excel file</b><span>or click to browse</span>
+            <input id="fileInput" type="file" accept=".csv,.xlsx,.xls" hidden>
+          </div>
+          <div id="uploadStatus" class="upload-status"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-datasets" class="view">
+      <div class="section-head"><div><h2>Your datasets</h2><p>Files registered in the local InsightForge database.</p></div><button class="primary" onclick="document.getElementById('fileInput2').click()">＋ Upload dataset</button><input id="fileInput2" type="file" accept=".csv,.xlsx,.xls" hidden></div>
+      <div class="table-panel"><table><thead><tr><th>Dataset</th><th>Rows</th><th>Columns</th><th>Created</th><th></th></tr></thead><tbody id="datasetRows"></tbody></table></div>
+    </section>
+
+    <section id="view-quality" class="view">
+      <div class="section-head"><div><h2>Data quality</h2><p>Select a dataset to inspect missing values, duplicates and field health.</p></div><select id="qualitySelect" onchange="showQuality()"></select></div>
+      <div id="qualityContent"></div>
+    </section>
+
+    <section id="view-anomalies" class="view">
+      <div class="section-head"><div><h2>Anomaly radar</h2><p>Isolation Forest flags records that differ from the numeric population.</p></div><select id="anomalySelect" onchange="showAnomalies()"></select></div>
+      <div id="anomalyContent"></div>
+    </section>
+
+    <section id="view-correlations" class="view">
+      <div class="section-head"><div><h2>Correlation map</h2><p>Discover strong relationships between numeric fields.</p></div><select id="corrSelect" onchange="showCorrelations()"></select></div>
+      <div id="corrContent"></div>
+    </section>
+  </main>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>
